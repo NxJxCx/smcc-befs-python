@@ -50,7 +50,7 @@ async def disable_favicon():
 async def homepage():
     return {"SUCCESS": "BEFS API is running"}
 
-@app.get("/*"):
+@app.get("/*")
 async def catch_all():
     return {"ERROR": "Endpoint not found"}
 
