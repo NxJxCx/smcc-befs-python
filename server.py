@@ -46,6 +46,14 @@ app.include_router(v1.router, prefix="/api")
 async def disable_favicon():
     return {"detail": "No favicon"}
 
+@app.get("/")
+async def homepage():
+    return {"SUCCESS": "BEFS API is running"}
+
+@app.get("/*"):
+async def catch_all():
+    return {"ERROR": "Endpoint not found"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("server:app", host=settings.FASTAPI_SERVER_HOST, port=int(settings.FASTAPI_SERVER_PORT), reload=False)
