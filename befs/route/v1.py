@@ -32,7 +32,7 @@ async def create_training_session(data: SessionValidateRequest, request: Request
             create_body = TrainCreateSessionPost(**data.model_dump(exclude='token'), token=str(session_token))
             await create_train_session_api(create_body)
     except Exception as e:
-        print(e)
+        print("Exception on /train/create :", e)
         session_token = None
     finally:
         return TrainCreateSessionResponse(session_token=str(session_token) if session_token is not None else None)
@@ -52,7 +52,7 @@ async def validate_session(request: Request):
         if not is_valid:
             await invalidate_train_session(data)
     except Exception as e:
-        print(e)
+        print("Exception on /validate/session :", e)
         is_valid = False
     finally:
         return SessionValidateResponse(valid=is_valid)
@@ -76,7 +76,7 @@ async def get_training_sessions(request: Request):
                 await invalidate_train_session_token(InvalidateSessionRequest(token=tck))
         data.sort(key=lambda x: datetime.fromisoformat(x[3]))
     except Exception as e:
-        print(e)
+        print("Exception on /train/sessions :", e)
         data = []
     finally:
         return TrainSessionsResponse(data=data)
@@ -100,7 +100,7 @@ async def destroy_training_session(data: TrainCreateSessionRequest, request: Req
         else:
             raise Exception("No Training Session Found")
     except Exception as e:
-        print(e)
+        print("Exception on /train/destroy :", e)
         detail = str(e)
         success = False
     finally:
