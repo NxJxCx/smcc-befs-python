@@ -14,6 +14,7 @@ router.prefix = "/v1"
 @router.post("/train/create", response_model=TrainCreateSessionResponse)
 async def create_training_session(data: SessionValidateRequest, request: Request):
     session_token = None
+    print("data received: ", data)
     try:
         resp = await validate_train_session(data)
         if resp.valid:
