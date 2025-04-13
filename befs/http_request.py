@@ -70,8 +70,12 @@ async def create_train_session_api(data: TrainCreateSessionPost) -> CreateSessio
 
 
 async def validate_train_session(data: SessionValidateRequest) -> SessionValidateResponse:
-    respDict = await http_get(apiUrls.validate_train_session, data.model_dump())
-    return SessionValidateResponse(**respDict)
+    try:
+        respDict = await http_get(apiUrls.validate_train_session, data.model_dump())
+        return SessionValidateResponse(**respDict)
+    except Exception as e:
+        print(f"Error validating train session: {e}")
+        return SessionValidateResponse(success=False, error=str(e))
 
 async def invalidate_train_session(data: SessionValidateRequest) -> TrainDestroySessionResponse:
     respDict = await http_post_json(apiUrls.invalidate_train_session, data)
