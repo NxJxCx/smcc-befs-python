@@ -16,6 +16,7 @@ cors_origins = [
     "http://127.0.0.1:5000",
     "https://127.0.0.1:5000",
     "https://capstone.smccnasipit.edu.ph/befs",
+    "https://smcc-befs-php-production.up.railway.app/befs",
 ]
 
 @asynccontextmanager
