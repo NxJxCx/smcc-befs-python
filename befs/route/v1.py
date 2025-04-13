@@ -16,20 +16,28 @@ async def create_training_session(data: SessionValidateRequest, request: Request
     session_token = None
     print("data received: ", data)
     try:
+        print("step 1")
         resp = await validate_train_session(data)
         if resp.valid:
+            print("step 1.1")
             session_token = data.token
         else:
+            print("step 1.2")
             session_token = str(secrets.token_hex(16))
+            print("step 1.3:", session_token)
             # Initialize training state
             training_classes: Dict[str, BaseMLTrainer] = request.app.training_classes
+            print("step 1.4")
             TrainerClass = LogisticRegressionTrainer if data.algo == "Logistic Regression" else XGBClassifierTrainer
+            print("step 1.5")
             training_classes[str(session_token)] = TrainerClass(
                 session_id=data.session_key,
                 username=data.username,
                 token=str(session_token)
             )
+            print("step 1.6")
             create_body = TrainCreateSessionPost(**data.model_dump(exclude='token'), token=str(session_token))
+            print("step 1.7")
             await create_train_session_api(create_body)
     except Exception as e:
         print("Exception on /train/create :", e)
