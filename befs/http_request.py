@@ -50,10 +50,7 @@ async def http_get_raw(url: str, params: dict = {}):
         more_params = more_params.split("&") if more_params != "" else []
         more_params = {p.split("=")[0]:p.split("=")[1] for p in more_params}
         params = {**more_params, **params}
-        print(f"GET URL: {urlsplit[0]}?{params}")
-        print(f"GET HEADERS: {headers}")
         response = await client.get(urlsplit[0], params=params, headers=headers)
-        print(f"GET RESPONSE: {response.text}")
         return response.text
 
 async def http_post_json(url: str, data: BaseModel):
