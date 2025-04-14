@@ -1,25 +1,20 @@
 FROM python:3.11-slim
 
-# Install dependencies
+# Install dependencies (including CA certificates package)
 RUN apt-get update && apt-get install -y \
     build-essential \
     libatlas-base-dev \
     libstdc++6 \
     nginx \
-    openssl \
+    ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Create self-signed SSL certificate
-RUN mkdir -p /etc/nginx/ssl && \
-    openssl req -x509 -nodes -days 365 \
-    -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/key.pem \
-    -out /etc/nginx/ssl/cert.pem \
-    -subj "/C=PH/ST=Denial/L=Nowhere/O=Dis/CN=localhost"
+# Copy the self-signed certificate to the container
+COPY ./cert/cert.pem /usr/local/share/ca-certificates/my-cert.crt
 
-# Copy nginx config
-COPY nginx/default.conf /etc/nginx/sites-available/default
+COPY ./cert/cert.pem /etc/ssl/certs/my-cert.pem
+COPY ./cert/key.pem /etc/ssl/private/my-cert.pem
 
 # Set working directory
 WORKDIR /app
@@ -30,7 +25,7 @@ COPY ./app /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the HTTP port
-EXPOSE 443
+EXPOSE 443 80
 
 # Start Nginx + FastAPI
 CMD service nginx start && uvicorn server:app --host 127.0.0.1 --port 8080
