@@ -16,7 +16,7 @@ RUN mkdir -p /etc/nginx/ssl && \
     -newkey rsa:2048 \
     -keyout /etc/nginx/ssl/key.pem \
     -out /etc/nginx/ssl/cert.pem \
-    -subj "/C=US/ST=Denial/L=Nowhere/O=Dis/CN=localhost"
+    -subj "/C=PH/ST=Denial/L=Nowhere/O=Dis/CN=localhost"
 
 # Copy nginx config
 COPY nginx/default.conf /etc/nginx/sites-available/default
