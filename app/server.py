@@ -9,10 +9,8 @@ from befs.train import BaseMLTrainer
 cors_origins = [
     "http://localhost",
     "https://localhost",
-    "localhost",
     "http://127.0.0.1",
     "https://127.0.0.1",
-    "127.0.0.1",
     "http://localhost:5000",
     "https://localhost:5000",
     "http://127.0.0.1:5000",
