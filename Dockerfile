@@ -15,9 +15,7 @@ COPY nginx/default.conf /etc/nginx/sites-available/default
 # Set working directory
 WORKDIR /app
 
-# Copy application files
-COPY ./app ./app
-COPY requirements.txt .
+COPY ./app /app
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
