@@ -33,7 +33,6 @@ apiUrls = ApiUrls()
 
 async def http_get(url: str, params: dict = {}):
     headers = {"Accept": "application/json"}
-    print("accessing url:", url, "with params:", params)
     async with httpx.AsyncClient(verify=False) as client:
         urlsplit = url.split("?")
         more_params = urlsplit[1] if len(urlsplit) > 1 else ""
@@ -41,7 +40,6 @@ async def http_get(url: str, params: dict = {}):
         more_params = {p.split("=")[0]:p.split("=")[1] for p in more_params}
         params = {**more_params, **params}
         response = await client.get(urlsplit[0], params=params, headers=headers)
-        print("response is", response.text)
         return response.json()
 
 async def http_get_raw(url: str, params: dict = {}):
@@ -56,13 +54,10 @@ async def http_get_raw(url: str, params: dict = {}):
         return response.text
 
 async def http_post_json(url: str, data: BaseModel):
-    print("accessing post url:", url, "with data:", data)
     async with httpx.AsyncClient(verify=False) as client:
         data = data.model_dump_json()
         jsonData = json.loads(data)
-        print("jsonData is", jsonData)
         response = await client.post(url, json=jsonData)
-        print("response is", response.text)
         return response.json()
 
 async def get_train_session(data: TrainCreateSessionRequest) -> TrainCreateSessionResponse:

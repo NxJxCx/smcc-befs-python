@@ -15,36 +15,25 @@ router.prefix = "/v1"
 async def create_training_session(data: SessionValidateRequest, request: Request):
     session_token = None
     try:
-        print("1.0")
         resp = await validate_train_session(data)
         if resp.valid:
-            print("1.1")
             session_token = data.token
-            print("session_token = ", session_token)
         else:
-            print("1.2")
             session_token = str(secrets.token_hex(16))
-            print("1.3 session_token = ", session_token)
             # Initialize training state
             training_classes: Dict[str, BaseMLTrainer] = request.app.training_classes
-            print("1.4")
             TrainerClass = LogisticRegressionTrainer if data.algo == "Logistic Regression" else XGBClassifierTrainer
-            print("1.5")
             training_classes[str(session_token)] = TrainerClass(
                 session_id=data.session_key,
                 username=data.username,
                 token=str(session_token)
             )
-            print("1.6")
             create_body = TrainCreateSessionPost(**data.model_dump(exclude='token'), token=str(session_token))
-            print("1.7 create_body = ", create_body)
             await create_train_session_api(create_body)
-            print("1.8 done")
     except Exception as e:
         print("Exception on /train/create :", e)
         session_token = None
     finally:
-        print("2.0 session_token = ", session_token)
         return TrainCreateSessionResponse(session_token=str(session_token) if session_token is not None else None)
 
 @router.get("/validate/session", response_model=SessionValidateResponse)
