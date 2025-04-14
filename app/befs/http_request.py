@@ -33,6 +33,7 @@ apiUrls = ApiUrls()
 
 async def http_get(url: str, params: dict = {}):
     headers = {"Accept": "application/json"}
+    print("accessing url:", url, "with params:", params)
     async with httpx.AsyncClient(verify=False) as client:
         urlsplit = url.split("?")
         more_params = urlsplit[1] if len(urlsplit) > 1 else ""
@@ -40,6 +41,7 @@ async def http_get(url: str, params: dict = {}):
         more_params = {p.split("=")[0]:p.split("=")[1] for p in more_params}
         params = {**more_params, **params}
         response = await client.get(urlsplit[0], params=params, headers=headers)
+        print("response is", response.text)
         return response.json()
 
 async def http_get_raw(url: str, params: dict = {}):
