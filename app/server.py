@@ -19,21 +19,12 @@ cors_origins = [
     "https://127.0.0.1:5000",
     "http://smcc-befs-test-connection.up.railway.app",
     "https://smcc-befs-test-connection.up.railway.app",
-    "smcc-befs-test-connection.up.railway.app",
     "http://function-bun.railway.internal",
     "https://function-bun.railway.internal",
-    "function-bun.railway.internal",
-    "http://capstone.smccnasipit.edu.ph",
-    "https://capstone.smccnasipit.edu.ph",
-    "capstone.smccnasipit.edu.ph",
-    "http://capstone.smccnasipit.edu.ph/befs",
-    "https://capstone.smccnasipit.edu.ph/befs",
     "http://smcc-befs.up.railway.app",
     "https://smcc-befs.up.railway.app",
-    "smcc-befs.up.railway.app",
     "http://smcc-befs-php.railway.internal",
     "https://smcc-befs-php.railway.internal",
-    "smcc-befs-php.railway.internal",
 ]
 
 @asynccontextmanager
