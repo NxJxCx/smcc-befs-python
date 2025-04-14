@@ -26,4 +26,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Start Nginx + FastAPI
-CMD service nginx start && uvicorn app.main:app --host 127.0.0.1 --port 8080
+CMD service nginx start && uvicorn server:app --host 127.0.0.1 --port 8080
