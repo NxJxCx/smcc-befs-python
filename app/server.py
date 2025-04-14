@@ -23,6 +23,10 @@ cors_origins = [
     "https://smcc-befs.up.railway.app",
     "http://smcc-befs-php.railway.internal",
     "https://smcc-befs-php.railway.internal",
+    "http://smcc-befs-api.up.railway.app",
+    "https://smcc-befs-api.up.railway.app",
+    "http://smcc-befs-python.railway.internal",
+    "https://smcc-befs-python.railway.internal",
 ]
 
 @asynccontextmanager
