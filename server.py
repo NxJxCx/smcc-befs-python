@@ -19,6 +19,8 @@ cors_origins = [
     "https://capstone.smccnasipit.edu.ph/befs",
     "https://smcc-befs-php-production.up.railway.app",
     "https://smcc-befs-php-production.up.railway.app/befs",
+    "http://smcc-befs-php.railway.internal",
+    "https://smcc-befs-php.railway.internal",
 ]
 
 @asynccontextmanager
