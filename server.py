@@ -21,6 +21,10 @@ cors_origins = [
     "https://smcc-befs-php-production.up.railway.app/befs",
     "http://smcc-befs-php.railway.internal",
     "https://smcc-befs-php.railway.internal",
+    "http://smcc-befs-test-connection.up.railway.app",
+    "https://smcc-befs-test-connection.up.railway.app",
+    "http://function-bun.railway.internal",
+    "https://function-bun.railway.internal",
 ]
 
 @asynccontextmanager
