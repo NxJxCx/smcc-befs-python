@@ -56,10 +56,13 @@ async def http_get_raw(url: str, params: dict = {}):
         return response.text
 
 async def http_post_json(url: str, data: BaseModel):
+    print("accessing post url:", url, "with data:", data)
     async with httpx.AsyncClient(verify=False) as client:
         data = data.model_dump_json()
         jsonData = json.loads(data)
+        print("jsonData is", jsonData)
         response = await client.post(url, json=jsonData)
+        print("response is", response.text)
         return response.json()
 
 async def get_train_session(data: TrainCreateSessionRequest) -> TrainCreateSessionResponse:
