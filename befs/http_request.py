@@ -50,7 +50,6 @@ async def http_get_raw(url: str, params: dict = {}):
         more_params = more_params.split("&") if more_params != "" else []
         more_params = {p.split("=")[0]:p.split("=")[1] for p in more_params}
         params = {**more_params, **params}
-        print ("accessing url:", urlsplit[0], params)
         response = await client.get(urlsplit[0], params=params, headers=headers)
         return response.text
 
@@ -104,13 +103,15 @@ async def update_training_state(token: str, state: TrainingStatesResponse) -> Up
     return UpdateStateResponse(**respDict)
 
 async def get_dataset_contents(metadata: DatasetMetadata) -> Union[list, pd.DataFrame]:
-    url = f"{settings.STORAGE_BASE_URL}{metadata.filepath}"
-    print("accessing url:", url)
-    respDict = await http_get_raw(f"{settings.STORAGE_BASE_URL}{metadata.filepath}")
+    url = f"{settings.STORAGE_BASE_URL}/files{metadata.filepath}"
+    respDict = await http_get_raw(url)
     return json.loads(respDict) if respDict.startswith("[") and respDict.endswith("]") else pd.read_csv(io.StringIO(respDict))
 
 async def remove_dataset_file(filename: str):
-    await http_post_json(apiUrls.remove_dataset, DatasetRemoveFile(dataset=filename))
+    print("removing dataset file:", filename)
+    print("removing dataset file url:", apiUrls.remove_dataset)
+    respDict = await http_post_json(apiUrls.remove_dataset, DatasetRemoveFile(dataset=filename))
+    print("removing dataset response:", respDict)
 
 async def remove_model_file(filename: str):
     await http_post_json(apiUrls.remove_model, ModelRemoveFile(model=filename))
