@@ -103,6 +103,8 @@ async def update_training_state(token: str, state: TrainingStatesResponse) -> Up
     return UpdateStateResponse(**respDict)
 
 async def get_dataset_contents(metadata: DatasetMetadata) -> Union[list, pd.DataFrame]:
+    url = f"{settings.STORAGE_BASE_URL}{metadata.filepath}"
+    print("accessing url:", url)
     respDict = await http_get_raw(f"{settings.STORAGE_BASE_URL}{metadata.filepath}")
     return json.loads(respDict) if respDict.startswith("[") and respDict.endswith("]") else pd.read_csv(io.StringIO(respDict))
 
