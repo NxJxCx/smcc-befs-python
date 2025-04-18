@@ -115,7 +115,5 @@ async def remove_model_file(filename: str):
 
 async def end_session(session: TrainCreateSessionRequest):
     base_url = f"http://localhost:{settings.FASTAPI_SERVER_PORT}"
-    print("ending session:", session, "base_url:", base_url)
     url = f"{base_url}{apiUrls.end_session}"
-    respDict = await http_post_json(url, session)
-    print("ending session response:", respDict)
+    await http_post_json(url, session)
