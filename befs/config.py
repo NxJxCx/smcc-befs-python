@@ -11,12 +11,12 @@ else:
     load_dotenv()
 
 class Settings:
-    MAIN_BASE_URL: str = os.getenv("BEFS_MAIN_BASE_URL") if os.getenv("BEFS_MAIN_BASE_URL") else "https://localhost"
-    STORAGE_BASE_URL: str = os.getenv("BEFS_STORAGE_BASE_URL") if os.getenv("BEFS_STORAGE_BASE_URL") else "https://localhost"
-    FASTAPI_SERVER_HOST: str = os.getenv("BEFS_FASTAPI_SERVER_HOST") if os.getenv("BEFS_FASTAPI_SERVER_HOST") else "0.0.0.0"
-    FASTAPI_SERVER_PORT: int = os.getenv("BEFS_FASTAPI_SERVER_PORT") if os.getenv("BEFS_FASTAPI_SERVER_PORT") else 5000
-    SECRET_KEY: str = os.getenv("BEFS_SECRET_KEY") if os.getenv("BEFS_SECRET_KEY") else secrets.token_hex(12)
-    API_KEY: str = os.getenv("BEFS_API_KEY") if os.getenv("BEFS_API_KEY") else secrets.token_hex(12)
+    MAIN_BASE_URL: str = os.getenv("BEFS_MAIN_BASE_URL", "https://localhost")
+    STORAGE_BASE_URL: str = os.getenv("BEFS_STORAGE_BASE_URL", "https://localhost")
+    FASTAPI_SERVER_HOST: str = os.getenv("BEFS_FASTAPI_SERVER_HOST", "0.0.0.0")
+    FASTAPI_SERVER_PORT: int = os.getenv("BEFS_FASTAPI_SERVER_PORT", os.getenv("PORT" , 5000))
+    SECRET_KEY: str = os.getenv("BEFS_SECRET_KEY", secrets.token_hex(12))
+    API_KEY: str = os.getenv("BEFS_API_KEY", secrets.token_hex(12))
 
 
 settings = Settings()
