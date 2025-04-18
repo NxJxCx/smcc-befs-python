@@ -108,13 +108,14 @@ async def get_dataset_contents(metadata: DatasetMetadata) -> Union[list, pd.Data
     return json.loads(respDict) if respDict.startswith("[") and respDict.endswith("]") else pd.read_csv(io.StringIO(respDict))
 
 async def remove_dataset_file(filename: str):
-    print("removing dataset file:", filename)
-    print("removing dataset file url:", apiUrls.remove_dataset)
-    respDict = await http_post_json(apiUrls.remove_dataset, DatasetRemoveFile(dataset=filename))
-    print("removing dataset response:", respDict)
+    await http_post_json(apiUrls.remove_dataset, DatasetRemoveFile(dataset=filename))
 
 async def remove_model_file(filename: str):
     await http_post_json(apiUrls.remove_model, ModelRemoveFile(model=filename))
 
 async def end_session(session: TrainCreateSessionRequest, base_url: str = ""):
-    await http_post_json(f"{base_url}{apiUrls.end_session}", session)
+    print("ending session:", session, "base_url:", base_url)
+    url = f"{base_url}{apiUrls.end_session}"
+    print("ending session url:", url)
+    respDict = await http_post_json(url, session)
+    print("ending session response:", respDict)
