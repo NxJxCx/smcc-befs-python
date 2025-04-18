@@ -5,7 +5,6 @@ import json
 import secrets
 import time
 from typing import Any, List, Literal, Optional, Union
-from urllib.parse import ParseResult
 from fastapi.websockets import WebSocketState
 import numpy as np
 import pandas as pd
@@ -29,7 +28,6 @@ from onnxmltools.convert.xgboost.operator_converters.XGBoost import convert_xgbo
 
 class BaseMLTrainer:
     def __init__(self, session_id: str, username: str, token: str, valid_hyperparameters: List[str], algo: Literal["Logistic Regression", "XGBoost Classifier"]):
-        self.base_url = ""
         self.valid_hyperparameters = valid_hyperparameters
         self.algo = algo
         self.session_id = session_id
@@ -65,10 +63,8 @@ class BaseMLTrainer:
             started_at=datetime.now(timezone.utc)
         )
     
-    def connect(self, websocket: WebSocket, urlparsed: ParseResult):
+    def connect(self, websocket: WebSocket):
         self.websocket = websocket
-        hostname = f"{urlparsed.hostname}:{urlparsed.port}" if urlparsed.port else urlparsed.hostname
-        self.base_url = f"http://{hostname}"
         self.state.connection = "connected"
 
     async def update_state(self):
@@ -307,7 +303,7 @@ class BaseMLTrainer:
             await self.set_dataset(None, None)
             self.state.ended_at = datetime.now(timezone.utc)
             await self.update_state()
-            await end_session(TrainCreateSessionRequest(username=self.username, session_key=self.session_id, algo=self.algo, train_token=self.token), self.base_url)
+            await end_session(TrainCreateSessionRequest(username=self.username, session_key=self.session_id, algo=self.algo, train_token=self.token))
         else:
             await self.send_updates()
 

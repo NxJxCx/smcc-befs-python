@@ -7,28 +7,21 @@ from befs.route import middleware, v1
 from befs.train import BaseMLTrainer
 
 cors_origins = [
+    settings.MAIN_BASE_URL, 
     "http://localhost",
     "https://localhost",
     "http://127.0.0.1",
     "https://127.0.0.1",
+    f"http://localhost:{settings.FASTAPI_SERVER_PORT}",
+    f"https://localhost:{settings.FASTAPI_SERVER_PORT}",
+    f"http://127.0.0.1:{settings.FASTAPI_SERVER_PORT}",
+    f"https://127.0.0.1:{settings.FASTAPI_SERVER_PORT}",
     "http://localhost:5000",
     "https://localhost:5000",
     "http://127.0.0.1:5000",
     "https://127.0.0.1:5000",
-    "http://localhost:8080",
-    "https://localhost:8080",
-    "http://smcc-befs-test-connection.up.railway.app",
-    "https://smcc-befs-test-connection.up.railway.app",
-    "http://function-bun.railway.internal",
-    "https://function-bun.railway.internal",
-    "http://smcc-befs.up.railway.app",
-    "https://smcc-befs.up.railway.app",
-    "http://smcc-befs-php.railway.internal",
-    "https://smcc-befs-php.railway.internal",
-    "http://smcc-befs-api.up.railway.app",
-    "https://smcc-befs-api.up.railway.app",
-    "http://smcc-befs-python.railway.internal",
-    "https://smcc-befs-python.railway.internal",
+    "http://localhost:3000",
+    "https://localhost:3000",
 ]
 
 @asynccontextmanager
