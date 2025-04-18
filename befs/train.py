@@ -84,6 +84,7 @@ class BaseMLTrainer:
     async def set_dataset(self, dataset: Optional[Union[list, pd.DataFrame]] = None, metadata: Optional[DatasetMetadata] = None):
         try:
             if dataset is None or metadata is None:
+                old_dataset = self.state.dataset
                 self.dataset = None
                 self.state.dataset = None
                 self.state.column_names = []
@@ -91,6 +92,10 @@ class BaseMLTrainer:
                 self.target = []
                 self.state.features = []
                 self.state.target = []
+                try:
+                    await remove_dataset_file(old_dataset.filename)
+                except Exception as err:
+                    print("remove old dataset error:", str(err))
                 raise Exception("[expected exception]: removed dataset")
             else:
                 if isinstance(dataset, pd.DataFrame):
@@ -106,9 +111,10 @@ class BaseMLTrainer:
                 self.state.column_names = list(self.dataset.columns)
                 old_dataset = self.state.dataset
                 self.state.dataset = DatasetMetadata(**metadata.model_dump(exclude=['columns', 'rows']), columns=len(self.dataset.columns), rows=int(self.dataset.shape[0]))
-                if old_dataset is not None:
-                    filename = old_dataset.filename
-                    await remove_dataset_file(filename)
+                try:
+                    await remove_dataset_file(old_dataset.filename)
+                except Exception as err:
+                    print("remove old dataset error:", str(err))
                 
         except Exception as e:
             print("exception here?", e)
