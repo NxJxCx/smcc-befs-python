@@ -50,6 +50,7 @@ async def http_get_raw(url: str, params: dict = {}):
         more_params = more_params.split("&") if more_params != "" else []
         more_params = {p.split("=")[0]:p.split("=")[1] for p in more_params}
         params = {**more_params, **params}
+        print ("accessing url:", urlsplit[0], params)
         response = await client.get(urlsplit[0], params=params, headers=headers)
         return response.text
 
