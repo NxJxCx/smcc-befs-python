@@ -116,5 +116,5 @@ async def remove_dataset_file(filename: str):
 async def remove_model_file(filename: str):
     await http_post_json(apiUrls.remove_model, ModelRemoveFile(model=filename))
 
-async def end_session(session: TrainCreateSessionRequest):
-    await http_post_json(apiUrls.end_session, session)
+async def end_session(session: TrainCreateSessionRequest, base_url: str = ""):
+    await http_post_json(f"{base_url}{apiUrls.end_session}", session)

@@ -1,5 +1,6 @@
 from datetime import datetime
 import secrets
+from urllib.parse import urlparse
 from typing import Dict
 from fastapi import APIRouter,  Request, WebSocket, WebSocketDisconnect
 from befs.http_request import create_train_session_api, get_train_session, get_train_sessions, invalidate_train_session, invalidate_train_session_token, validate_train_session
@@ -128,7 +129,9 @@ async def websocket_endpoint(websocket: WebSocket, api_key: str, token: str):
         print(f"Error Websocket Connection: {str(e)}")
 
     try:
-        trainer.connect(websocket)
+        ws_url = str(websocket.url)  # e.g., 'ws://localhost:8000/ws'
+        urlparsed = urlparse(ws_url)
+        trainer.connect(websocket, urlparsed)
         await trainer.websocket_loop()
     except WebSocketDisconnect:
         print(f"WebSocket disconnected: {trainer.session_id}")
