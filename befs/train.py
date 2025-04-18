@@ -68,7 +68,7 @@ class BaseMLTrainer:
     def connect(self, websocket: WebSocket, urlparsed: ParseResult):
         self.websocket = websocket
         hostname = f"{urlparsed.hostname}:{urlparsed.port}" if urlparsed.port else urlparsed.hostname
-        self.base_url = f"https://{hostname}"
+        self.base_url = f"http://{hostname}"
         self.state.connection = "connected"
 
     async def update_state(self):
